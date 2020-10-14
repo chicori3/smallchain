@@ -1,1 +1,5 @@
-console.log("Hello World");
+const hi = () => {
+  "Hello World";
+};
+
+console.log(hi);

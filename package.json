@@ -1,0 +1,8 @@
+{
+  "name": "smallchain",
+  "version": "1.0.0",
+  "description": "Learning Typescript by making a Blockchain with it",
+  "repository": "https://github.com/nomadcoders/smallchain",
+  "main": "index.js",
+  "license": "MIT"
+}

@@ -4,5 +4,9 @@
   "description": "Learning Typescript by making a Blockchain with it",
   "repository": "https://github.com/nomadcoders/smallchain",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "prestart": "tsc"
+  }
 }

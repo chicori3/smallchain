@@ -8,5 +8,8 @@
   "scripts": {
     "start": "node index.js",
     "prestart": "tsc"
+  },
+  "dependencies": {
+    "typescript": "^4.1.2"
   }
 }

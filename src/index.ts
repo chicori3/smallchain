@@ -12,7 +12,7 @@ class Block {
     CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
 
   // 블럭의 구조가 유효한 지 판단하는 함수
-  static validateStructre = (aBlock: Block): boolean =>
+  static validateStructure = (aBlock: Block): boolean =>
     typeof aBlock.index === "number" &&
     typeof aBlock.hash === "string" &&
     typeof aBlock.previousHash === "string" &&
@@ -39,8 +39,6 @@ class Block {
     this.timestamp = timestamp;
   }
 }
-
-Block.calculateBlockHash(1, "adad", 1, "1ada");
 
 const genesisBlock: Block = new Block(0, "22323232", "", "Hello", 1234);
 
@@ -69,6 +67,7 @@ const createNewBlock = (data: string): Block => {
     data,
     newTimestamp
   );
+  addBlock(newBlock);
   return newBlock;
 };
 
@@ -82,26 +81,30 @@ const getHashforBlock = (aBlock: Block): string =>
 
 // candidateBlock과 previousBlock을 인자로 받고 유효하지 않으면 false를 리턴
 const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
-  if (!Block.validateStructre(candidateBlock)) {
-    return false;
-  } else if (previousBlock.index + 1 !== candidateBlock.index) {
-    return false;
-  } else if (previousBlock.hash !== candidateBlock.hash) {
-    return false;
-  } else if (getHashforBlock(candidateBlock) !== candidateBlock.hash) {
-    return false;
-  } else {
-    return true;
-  }
-
-  // switch (Block.validateStructre(candidateBlock)) {
-  //   case !Block.validateStructre(candidateBlock):
-  //     return false;
-  //   case previousBlock.index + 1 !== candidateBlock.index:
-  //     return false;
-  //   case previousBlock.hash !== candidateBlock.hash:
-  //     return false;
+  // if (!Block.validateStructure(candidateBlock)) {
+  //   return false;
+  // } else if (previousBlock.index + 1 !== candidateBlock.index) {
+  //   return false;
+  // } else if (previousBlock.hash !== candidateBlock.previousHash) {
+  //   return false;
+  // } else if (getHashforBlock(candidateBlock) !== candidateBlock.hash) {
+  //   return false;
+  // } else {
+  //   return true;
   // }
+
+  switch (Block.validateStructure(candidateBlock)) {
+    case !Block.validateStructure(candidateBlock):
+      return false;
+    case previousBlock.index + 1 !== candidateBlock.index:
+      return false;
+    case previousBlock.hash !== candidateBlock.previousHash:
+      return false;
+    case getHashforBlock(candidateBlock) !== candidateBlock.hash:
+      return false;
+    default:
+      return true;
+  }
 };
 
 const addBlock = (candidateBlock: Block): void => {
@@ -109,3 +112,9 @@ const addBlock = (candidateBlock: Block): void => {
     blockchain.push(candidateBlock);
   }
 };
+
+createNewBlock("second block");
+createNewBlock("third block");
+createNewBlock("fourth block");
+
+console.log(blockchain);

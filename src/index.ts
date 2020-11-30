@@ -72,6 +72,14 @@ const createNewBlock = (data: string): Block => {
   return newBlock;
 };
 
+const getHashforBlock = (aBlock: Block): string =>
+  Block.calculateBlockHash(
+    aBlock.index,
+    aBlock.previousHash,
+    aBlock.timestamp,
+    aBlock.data
+  );
+
 // candidateBlock과 previousBlock을 인자로 받고 유효하지 않으면 false를 리턴
 const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
   if (!Block.validateStructre(candidateBlock)) {
@@ -80,6 +88,10 @@ const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
     return false;
   } else if (previousBlock.hash !== candidateBlock.hash) {
     return false;
+  } else if (getHashforBlock(candidateBlock) !== candidateBlock.hash) {
+    return false;
+  } else {
+    return true;
   }
 
   // switch (Block.validateStructre(candidateBlock)) {
@@ -90,4 +102,10 @@ const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
   //   case previousBlock.hash !== candidateBlock.hash:
   //     return false;
   // }
+};
+
+const addBlock = (candidateBlock: Block): void => {
+  if (isBlockValid(candidateBlock, getLatestBlock())) {
+    blockchain.push(candidateBlock);
+  }
 };
